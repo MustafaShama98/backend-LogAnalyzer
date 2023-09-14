@@ -16,6 +16,7 @@ function generateAccessToken(user) {
 // login success
 router.get("/login/success", (req, res) => {
     if (req.user) {
+
         const accessToken = generateAccessToken({
             userId: req.user.id,
             email: req.user.email,
@@ -28,10 +29,14 @@ router.get("/login/success", (req, res) => {
 
         res.status(200).json({
             success: true,
-            message: "successfull",
+            message: "successful",
             user: req.user,
             accessToken: accessToken,
         });
+    }else{
+        res.status(400).json({
+            status: 'fail'
+        })
     }
 });
 

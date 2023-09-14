@@ -227,7 +227,7 @@ const login_post = async (req, res, next) => {
             user = await userModel.findOne({ username }).select('+password')
 
         }
-        console.log('user: ' + user)
+
         if (!user) {
             return res.status(401).json({
                 errors: {
@@ -237,7 +237,7 @@ const login_post = async (req, res, next) => {
         }
         //if user exists in database
         const auth = await bcrypt.compare(password, user.password)
-        console.log(auth)
+
 
         if (!user || !auth) {
             return res.status(401).json({
@@ -261,6 +261,7 @@ const login_post = async (req, res, next) => {
 
                 },
                 status: 'success',
+                token : token
             }) // send back to frontend as json body
         }
     } catch (e) {
@@ -273,7 +274,7 @@ const login_post = async (req, res, next) => {
 
 
 const changePassword_post = async (req, res, next) => {
-    console.log(req.body)
+
     const oldPassword = req.body.oldPassword
     const newPassword = req.body.newPassword
     const username = req.body.username
@@ -293,7 +294,7 @@ const changePassword_post = async (req, res, next) => {
         }
         //if user exists in database
         const auth = await bcrypt.compare(oldPassword, user.password)
-        console.log(auth)
+
         if (!auth) {
             return res.json({
                 status:"incorrect old password"
@@ -340,15 +341,12 @@ const createToken = (id,email, role,firstName,lastName,username,companyName)=>{
 
 
 const logout_get = async(req,res)=> {
+        res.cookie('jwt','', {maxAge : 1}) //replace the current cookie with empty string \
+       console.log('logout here')
 
-        res.cookie('jwt','', {maxAge : 1}) //replace the current cookie with empty string
-
-        res.clearCookie('session')
-        res.clearCookie('session.sig')
-           // req.session.destroy()
-         res.redirect(process.env.CLIENT_LOGIN);
-
-
+       res.clearCookie('session')
+         res.clearCookie('session.sig')
+       res.redirect(process.env.CLIENT_LOGIN);
 
 }
 const restrictTo = (...roles) => {

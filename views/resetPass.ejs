@@ -7,7 +7,7 @@
     <title>Document</title>
     <script>
         var status = '<%- JSON.stringify(status) %>';
-        console.log(status)
+
         if (JSON.parse(status) === "verified") {
             if (confirm("Do u want to login?")) {
                 window.location.href = "http://localhost:3000/";

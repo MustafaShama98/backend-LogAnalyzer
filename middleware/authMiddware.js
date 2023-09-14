@@ -105,7 +105,7 @@ const onlyForUsers = (req,res,next)=>{
                 console.log(err.message)
                 res.redirect('/login')
             }else{//is valid user
-                console.log(decodedToken)
+
                 next()
             }
         })
@@ -129,7 +129,7 @@ const currentUser =  (req,res,next) => {
                 res.locals.user= null
                 next()
             } else {//is valid user
-                console.log(decodedToken)
+
                 //res.locals.user =await userModel.findById(decodedToken.id)
                 res.locals.user = ({username, firstName, lastName} = decodedToken)
                 next()
