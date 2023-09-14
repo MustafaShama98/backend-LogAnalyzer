@@ -1,5 +1,5 @@
 const nodemailer = require('nodemailer');
-const {company_Exist,paraseCompanyName} = require('./authController')
+const {company_Exist,parseCompanyName} = require('./authController')
 const {switchDB, getDBModel} = require("../multiDatabaseHandler");
 const userSchema = require('../models/userModel')
 const jwt = require('jsonwebtoken')
@@ -94,7 +94,7 @@ const verifyEmail = async (req, res) => {
 //const companyName = 'gmail';
 const forgetPass_post = async (req, res) => {
     const email = req.body.email;
-    const companyName =  paraseCompanyName(email);
+    const companyName =  parseCompanyName(email);
    // check if company is defined
     if(!(await company_Exist(companyName))) return res.status(404).json({
         errors: {

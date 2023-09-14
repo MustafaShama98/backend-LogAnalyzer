@@ -8,7 +8,7 @@ const catchAsync = require('../utils/catchAsync')
 const mongoose = require("mongoose");
 const mongoose2 =require('../server')
 const {onSignupNewDatabase,switchDB,getDBModel} = require('../multiDatabaseHandler')
-const {sendVerificationEmail} = require("./emailController");
+
 // handle errors
 
 
@@ -136,6 +136,7 @@ const signup_post = async (req, res) => {
 
             //sending the token as a cookie to frontend
             createCookie(token, res);
+             const {sendVerificationEmail} = require("./emailController");
              sendVerificationEmail(email,token);
             //   res.status(201).json({ user: user._id, token: token }); // send back to frontend as json body
              res.status(201).json({  message: 'Verification email sent successfully' });
@@ -150,7 +151,7 @@ const signup_post = async (req, res) => {
         res.status(400).json({ error });
     }
 };
- const paraseCompanyName = (email)=>{
+ const parseCompanyName = (email)=>{
      const domain = email.match(/@(.+)\.com$/);
      //amdocs
      //amdocs.mustafa
@@ -189,7 +190,7 @@ const login_post = async (req, res, next) => {
     var companyName = "";
     var usernameOrEmail = ""
     if (email != null) {
-        companyName = paraseCompanyName(email)
+        companyName = parseCompanyName(email)
         usernameOrEmail = email
     }
     else if (username != null) {
@@ -362,4 +363,4 @@ module.exports = {
     signup_get,signup_post,
     login_post,login_get,logout_get,
     restrictTo,
-    company_Exist, paraseCompanyName,changePassword_post}
+    company_Exist, parseCompanyName,changePassword_post}

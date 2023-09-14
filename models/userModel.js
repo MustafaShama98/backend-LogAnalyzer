@@ -60,6 +60,10 @@ const UserSchema =  mongoose.Schema({
         type: Boolean,
         default: false,
     },
+    IOT:{
+      type: String,
+      required : false
+    },
    /**  userLogs : [{
       type: mongoose.Schema.Types.ObjectId, ref: "logs"
     }],**/
