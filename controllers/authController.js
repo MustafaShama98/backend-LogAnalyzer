@@ -340,8 +340,15 @@ const createToken = (id,email, role,firstName,lastName,username,companyName)=>{
 
 
 const logout_get = async(req,res)=> {
+
         res.cookie('jwt','', {maxAge : 1}) //replace the current cookie with empty string
-    res.redirect('/')
+
+        res.clearCookie('session')
+        res.clearCookie('session.sig')
+           // req.session.destroy()
+         res.redirect(process.env.CLIENT_LOGIN);
+
+
 
 }
 const restrictTo = (...roles) => {
