@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 const connectDB = require('./connectDB')
 const dotenv = require('dotenv');
 const app = require('./app');
+const userRoutes = require('./routes/authRoutes');
+
 process.on('uncaughtException', err => {
     console.log('UNCAUGHT EXCEPTION! 💥 Shutting down...');
     console.log(err.name, err.message);
@@ -9,6 +11,8 @@ process.on('uncaughtException', err => {
 });
 
 dotenv.config({ path: './config.env' });
+
+app.use('/api', userRoutes);
 
 // const connect = async () => {
 //     try {
