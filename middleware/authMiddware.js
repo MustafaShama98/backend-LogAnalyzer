@@ -26,8 +26,6 @@ const isLoggedIn = catchAsync(  async (req, res, next) => {
                 req.cookies.jwt,
                 process.env.JWT_SECRET
             );
-          console.log("isloggin middleware")
-            console.log("middleware isloggin: " +  decoded.companyName)
             // 2) Check if user still exists
             // Switch to the specific database based on the company name
             const dbForCompany = await switchDB(decoded.companyName, 'employees', userSchema);
@@ -180,6 +178,7 @@ function isAdmin(req, res, next) {
 
             if (userRole === 'admin') {
                 // User is an admin, allow access
+               res.companyName = decoded.companyName;
                 next();
             } else {
                 // User is not an admin, deny access

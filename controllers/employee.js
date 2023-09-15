@@ -5,8 +5,8 @@ const userSchema = require('../models/userModel')
 async function getAllEmployeesDataByCompany(req, res) {
     // Switch to the specific database based on the company name
     // const companyName = 'gmail'
-    const companyName = req.companyName
-    console.log(companyName)
+    const companyName = res.companyName
+
     const dbForCompany = await switchDB(companyName, 'employees', userSchema);
 
     if (!dbForCompany) {
