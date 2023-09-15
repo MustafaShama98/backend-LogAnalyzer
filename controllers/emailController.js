@@ -1,12 +1,29 @@
 const nodemailer = require('nodemailer');
-const {company_Exist,paraseCompanyName} = require('./authController')
+// const {company_Exist,paraseCompanyName} = require('./authController')
 const {switchDB, getDBModel} = require("../multiDatabaseHandler");
 const userSchema = require('../models/userModel')
 const jwt = require('jsonwebtoken')
 const bcrypt  = require('bcrypt')
 const {promisify} = require("util");
 
+const paraseCompanyName = (email)=>{
+    const domain = email.match(/@(.+)\.com$/);
+    //amdocs
+    //amdocs.mustafa
+    if (domain && domain.length > 1) {
+        const companyName = domain[1];
+        return companyName
+    } else {
+        console.log("Invalid email address");
+    }
+}
 
+const company_Exist= async(companyName)=>{
+
+   const MainDB = await switchDB('MainDB','admins', userSchema)
+   const adminsModel= await getDBModel(MainDB,'admins',userSchema)
+   return await adminsModel.findOne({companyName})
+}
 const sendVerificationEmail = async (email, verificationToken) => {
     console.log("Send email");
     // 1) Create a transporter
@@ -96,31 +113,23 @@ const forgetPass_post = async (req, res) => {
     const email = req.body.email;
     const companyName =  paraseCompanyName(email);
    // check if company is defined
-    if(!(await company_Exist(companyName))) return res.status(404).json({
+    if(!(await company_Exist(companyName)))
+     return res.status(404).json({
         errors: {
             status: `The company ${companyName} is not registered.`,
         },
     });
     req.companyName = companyName;
-    //1)  Determine the tenant company database
-
     const companyDB = await switchDB(companyName,'employees', userSchema)
-    //2) point to users collections in companyDB
     const userModel= await getDBModel(companyDB,'employees',userSchema)
-    console.log('forgotpass: '+ email)
     try {
         const oldUser = await userModel.findOne({ email })
         if (!oldUser) {
             res.json({ status: "User Not Exists!!" })
         }
         const secret = process.env.SECRET_CODE
-
-        // const secret = process.env.SECRET_CODE + oldUser.password
         const token = await jwt.sign({ email: oldUser.email, id: oldUser._id , companyName}, secret, { expiresIn: '50m' });
-       // const resetToken = userModel.createPasswordResetToken()
-      //  await userModel.save();
         const link = `http://localhost:3001/resetPass/${oldUser._id}/${token}`
-        console.log(link)
 
         var transporter = nodemailer.createTransport({
             service: 'gmail',
@@ -143,8 +152,12 @@ const forgetPass_post = async (req, res) => {
                 console.log(error);
             } else {
                 console.log('Email sent: ' + info.response);
+                return res.status(201).json({
+                    message:"check your email to reset your password"
+                });
             }
         });
+
     }
     catch (err) {
         console.log(err)

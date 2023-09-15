@@ -197,17 +197,15 @@ const login_post = async (req, res, next) => {
         usernameOrEmail = username
     }
     try {
+        console.log(companyName)
         //check if company is defined
         if (!(await company_Exist(companyName))) {
-            console.log(`The company ${companyName} is not registered.`)
-
             return res.status(404).json({
                 errors: {
                     status: `The company ${companyName} is not registered.`,
                 },
             });
         }
-
         req.companyName = companyName;
         //1)  Determine the tenant company database
 
