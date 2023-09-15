@@ -1,16 +1,31 @@
 [
   {
-    "_id": "6503533f3937a35164e392a0",
-    "username": "soollyymmaa",
-    "phoneNumber": "054676780",
-    "email": "solyma.mady@gmail.com",
-    "password": "$2b$12$XnzGILyM/H1rw05jwdZBIO2xEDv4HnM2.Wqn0rKYH4ehb/GN9G4n6",
-    "firstName": "solyma",
-    "lastName": "mady",
+    "_id": "65016a42924aa833efed3388",
+    "username": "m13",
+    "phoneNumber": "0505674226",
+    "email": "mostfashmma@gmail.com",
+    "password": "$2b$12$zHjT9vk6wV/1fzuw76tPMeXMf6es5nd2JexUjEcCPThjIWDV5tjy2",
+    "firstName": "Mustafa",
+    "lastName": "Shama",
     "role": "admin",
-    "isVerified": false,
+    "isVerified": true,
     "active": true,
     "companyName": "gmail",
     "__v": 0
+  },
+  {
+    "_id": "65032a728e812bfae2b903f5",
+    "username": "gmail.m15",
+    "phoneNumber": "0505674227",
+    "email": "mostfashma@gmail.com",
+    "password": "$2b$10$agCETgxvLAwb8YoaaU98l.709cWShwz6ASQly3IVhTCeKuR1ULhci",
+    "firstName": "Mustafa",
+    "lastName": "Shama",
+    "role": "viewer",
+    "isVerified": true,
+    "active": true,
+    "companyName": "gmail",
+    "__v": 0,
+    "passwordChangedAt": "2023-09-15T00:00:00.000Z"
   }
 ]

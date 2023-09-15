@@ -3,8 +3,8 @@
 <form action="/login" method="POST">
     <h2>Login</h2>
 
-    <label for="username">Username</label>
-    <input type="text" name="username" required />
+    <label for="email">Username</label>
+    <input type="text" name="email" required />
     <div class="username error"></div>
     <label for="password">Password</label>
     <input type="password" name="password" required />
@@ -19,7 +19,7 @@
 <script>
     const form = document.querySelector('form');
     const passwordError = document.querySelector('.password.error')
-    const usernameError = document.querySelector('.username.error')
+    const usernameError = document.querySelector('.email.error')
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         //reset errors
@@ -27,13 +27,13 @@
         passwordError.textContent = ''
         usernameError.textContent= ''
         // get values
-        const username = form.username.value;
+        const email = form.email.value;
 
         const password = form.password.value;
         //api call from frontend to server, sending data from form to server to save in db
         const res = await fetch('/login',{
             method : 'POST',
-            body: JSON.stringify({username,password}),
+            body: JSON.stringify({email,password}),
             headers: {'Content-type':'application/json'}
         })
 

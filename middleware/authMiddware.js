@@ -1,13 +1,16 @@
 const {promisify}  = require('util')
 const jwt = require('jsonwebtoken')
-const userModel = require('../models/userModel')
+const userSchema = require('../models/userModel')
 const catchAsync =require('../utils/catchAsync')
 const AppError = require("../utils/appError");
+const {switchDB, getDBModel} = require("../multiDatabaseHandler");
+
 
 
 // Only for rendered pages, no errors!
 const isLoggedIn = catchAsync(  async (req, res, next) => {
-    if (!req.cookies.jwt) {
+
+    if (!(req.cookies.jwt)) {
         res.status(401).json({
             status: 'error',
             message: 'Unauthorized: not logged in.',
@@ -23,9 +26,19 @@ const isLoggedIn = catchAsync(  async (req, res, next) => {
                 req.cookies.jwt,
                 process.env.JWT_SECRET
             );
-
+          console.log("isloggin middleware")
+            console.log("middleware isloggin: " +  decoded.companyName)
             // 2) Check if user still exists
-            const currentUser = await userModel.findById(decoded.id);
+            // Switch to the specific database based on the company name
+            const dbForCompany = await switchDB(decoded.companyName, 'employees', userSchema);
+
+            if (!dbForCompany) {
+                throw new Error(`Unable to switch to database for company: ${decoded.companyName}`);
+            }
+
+            // Use the dbForCompany to get the model
+            const employeeModel = await getDBModel(dbForCompany, 'employees', userSchema);
+            const currentUser = await employeeModel.findById(decoded.id);
             if (!currentUser) {
                 return next();
             }
@@ -36,6 +49,8 @@ const isLoggedIn = catchAsync(  async (req, res, next) => {
             }
 
             // THERE IS A LOGGED IN USER
+            res.companyName = decoded.companyName
+
             res.locals.user = currentUser;
             return next();
         } catch (err) {

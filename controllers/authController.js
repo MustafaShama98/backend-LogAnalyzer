@@ -261,6 +261,7 @@ const login_post = async (req, res, next) => {
             const token = createToken(user._id, user.email, user.role, user.firstName, user.lastName, user.username, user.companyName)
             //sending the token as a cookie to frontend
             createCookie(token, res)
+
             res.status(201).json({
                 user: {
                     username: user.username,

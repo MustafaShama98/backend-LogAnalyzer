@@ -1,9 +1,6 @@
 const connectDB = require('./connectDB')
 const TenantSchema= require ('./models/tenantSchema.js')
-const EmployeeSchema= require ('./models/employeeSchema.js')
 const userSchema = require('./models/userModel')
-const logSchema = require('./models/logModel')
-const ruleSchema = require('./models/ruleModel')
 const catchAsync = require('./utils/catchAsync')
 // Indicates which Schemas are used by whom
 const CompanySchemas = new Map([['employee', userSchema]])
@@ -76,8 +73,8 @@ const onSignupNewDatabase = async (adminModel,adminSchema, adminData) =>{
         const companyDB=  await switchDB(adminData.companyName,'admins', adminSchema)
         //4) save same admin into the new company database - employee collections
         const EmployeeModel = await getDBModel(companyDB, 'employee',userSchema);
-        const logsModel = await getDBModel(companyDB, 'logs',logSchema);
-        const rulesModel = await getDBModel(companyDB, 'rules',ruleSchema);
+        // const logsModel = await getDBModel(companyDB, 'logs',logSchema);
+        // const rulesModel = await getDBModel(companyDB, 'rules',ruleSchema);
         await EmployeeModel.create(adminData)
         const admin = await EmployeeModel.findOne({email : adminData.email} )
 
