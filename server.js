@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const connectDB = require('./connectDB')
 const dotenv = require('dotenv');
 const app = require('./app');
+const userRoutes = require('./routes/authRoutes');
 process.on('uncaughtException', err => {
     console.log('UNCAUGHT EXCEPTION! 💥 Shutting down...');
     console.log(err.name, err.message);
@@ -30,6 +31,7 @@ const server = app.listen(port, () => {
     console.log(`App running on port ${port}...`);
 });
 
+app.use('/api', userRoutes);
 
 
 

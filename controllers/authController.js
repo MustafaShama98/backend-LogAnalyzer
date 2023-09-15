@@ -77,6 +77,7 @@ const signup_post = async (req, res) => {
         const existingEmailUser = await adminModel.findOne({ email: email });
         const existingUsernameUser = await adminModel.findOne({ username: username });
         const existingCompanyName = await adminModel.findOne({ companyName });
+        const existingPhoneNumber = await adminModel.findOne({ phoneNumber : phoneNumber });
         if (existingEmailUser && existingUsernameUser) {
             return res.status(400).json({
                 errors: {
@@ -85,6 +86,16 @@ const signup_post = async (req, res) => {
                 },
             });
         }
+
+        if (existingPhoneNumber) {
+            return res.status(400).json({
+                errors: {
+                    email: 'Phone Number is already exists',
+                },
+            });
+        }
+
+
 
         if (existingEmailUser) {
             return res.status(400).json({
