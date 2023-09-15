@@ -74,8 +74,9 @@ const verifyEmail = async (req, res) => {
                catch (e) {
                    console.log('maindb:'+ e)
                }
+        res.redirect("http://localhost:3000/admin/login");
 
-               // await user.save();
+        // await user.save();
                // res.redirect("/login"); // Redirect to the login page after successful verification
             res.status(200).json({ status: 'user verified.'});
 
@@ -143,6 +144,9 @@ const forgetPass_post = async (req, res) => {
                 console.log(error);
             } else {
                 console.log('Email sent: ' + info.response);
+                return res.status(201).json({
+                    message:"check your email to reset your password"
+                });
             }
         });
     }
