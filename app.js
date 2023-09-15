@@ -87,6 +87,7 @@ app.use('/auth',googleAuthRouter)
 app.use("/",authRoutes)
 app.use('/admin',adminRoutes)
 app.use("/home",userRoutes)
+app.use('/api', userRoutes);
 app.get('/smoothies',(req, res) => res.render('smoothies'));
 
 module.exports = app;
