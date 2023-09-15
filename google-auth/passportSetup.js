@@ -1,6 +1,5 @@
 require("dotenv").config({ path: "../config/.env" });
 
-
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 
@@ -28,7 +27,7 @@ passport.use(
       // passport callback function
       // check if user already exists in our own db
       usersBL
-        .getUserByEmail(profile.emails[0].value)
+        .getUserByEmailWithoutRejection(profile.emails[0].value)
         .then((currentUser, err) => {
           if (err) {
             done(err);
@@ -43,4 +42,4 @@ passport.use(
   )
 );
 
-module.exports = passport
+module.exports = passport;
