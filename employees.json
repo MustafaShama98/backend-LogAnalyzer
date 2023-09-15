@@ -1,0 +1,16 @@
+[
+  {
+    "_id": "6503533f3937a35164e392a0",
+    "username": "soollyymmaa",
+    "phoneNumber": "054676780",
+    "email": "solyma.mady@gmail.com",
+    "password": "$2b$12$XnzGILyM/H1rw05jwdZBIO2xEDv4HnM2.Wqn0rKYH4ehb/GN9G4n6",
+    "firstName": "solyma",
+    "lastName": "mady",
+    "role": "admin",
+    "isVerified": false,
+    "active": true,
+    "companyName": "gmail",
+    "__v": 0
+  }
+]
