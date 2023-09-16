@@ -17,7 +17,7 @@ const isLoggedIn = catchAsync(  async (req, res, next) => {
         });
         return next(new AppError('You are not logged in.', 401))
     }
-    if (req.cookies.jwt) {
+    if (req.cookies.jwt || req.cookies._auth) {
         try {
 
 
