@@ -74,11 +74,11 @@ const verifyEmail = async (req, res) => {
         catch (e) {
             console.log('maindb:' + e)
         }
-        res.redirect("http://localhost:3000/admin/login");
+        res.redirect("http://localhost:3000/admin/dashboard");
 
         // await user.save();
         // res.redirect("/login"); // Redirect to the login page after successful verification
-        res.status(200).json({ status: 'user verified.' });
+        // res.status(200).json({ status: 'user verified.' });
 
 
     } catch (error) {

@@ -3,7 +3,7 @@ const router = express.Router()
 const authController = require('../controllers/authController')
 const authRoutes = require("./authRoutes");
 const  {verifyUser,isLoggedIn, isAdmin}= require('../middleware/authMiddware')
-const getAllEmployeesDataByCompany = require("../controllers/employee");
+const getAllEmployeesDataByCompany = require("../controllers/adminController");
 
 //router.use('/', authRoutes)
 
