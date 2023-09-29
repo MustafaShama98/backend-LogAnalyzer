@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const connectDB = require('./connectDB')
 const dotenv = require('dotenv');
 const app = require('./app');
-const userRoutes = require('./routes/authRoutes');
+const userRoutes = require('./login/routes/authRoutes');
 process.on('uncaughtException', err => {
     console.log('UNCAUGHT EXCEPTION! 💥 Shutting down...');
     console.log(err.name, err.message);
@@ -26,7 +26,7 @@ dotenv.config({ path: './config.env' });
  connectDB().then(r => console.log('DB connection successful!'))
 
 
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 5000;
 const server = app.listen(port, () => {
     console.log(`App running on port ${port}...`);
 });

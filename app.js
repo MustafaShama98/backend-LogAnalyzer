@@ -2,24 +2,25 @@ const express = require('express');
 
 const cors = require("cors");
 const cookieSession = require("cookie-session");
-const adminRoutes = require('./routes/adminRoutes')
-const authRoutes = require('./routes/authRoutes')
-const userRoutes = require('./routes/userRoutes')
-const emailRoutes = require('./routes/emailRoutes')
-const googleAuthRouter = require('./routes/googleAuthRouter')
+const adminRoutes = require('./systemRoutes/adminRoutes')
+const authRoutes = require('./login/routes/authRoutes')
+const userRoutes = require('./login/routes/userRoutes')
+const emailRoutes = require('./login/routes/emailRoutes')
+const googleAuthRouter = require('./login/routes/googleAuthRouter')
 const cookieParser = require ('cookie-parser')
 const bodyParser = require('body-parser');
-const {currentUser,onlyForUsers,usersOnly, isLoggedIn} = require("./middleware/authMiddware");
-const globalErrorHandler = require('./controllers/errorController');
+const {currentUser,onlyForUsers,usersOnly, isLoggedIn} = require("./login/middleware/authMiddware");
+const globalErrorHandler = require('./login/controllers/errorController');
 const app = express();
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
 const {switchDB, getDBModel} = require("./multiDatabaseHandler");
-const userSchema = require("./models/userModel");
+const userSchema = require("./login/models/userModel");
 const {Response, Request, NextFunction} = require('express')
 const passport = require("passport");
+const {upload} = require("./fileSystem/controllers/fileSystemController");
 // middleware
 app.use(express.static('public'));
 // Body parser, reading data from body into req.body
@@ -29,7 +30,7 @@ app.use(express.urlencoded({ extended: true, limit: '500kb' }));
 
 app.use(cookieParser());
 
-
+ // app.use(upload.array("files",10));
 
 
 
@@ -60,20 +61,9 @@ app.use(
     )
 );
 //Data sanitization against XSS
-app.use(xss());
+// app.use(xss());
 // Prevent parameter pollution
-app.use(
-    hpp({
-        whitelist: [
-            'duration',
-            'ratingsQuantity',
-            'ratingsAverage',
-            'maxGroupSize',
-            'difficulty',
-            'price'
-        ]
-    })
-);
+
 // view engine
 app.set('view engine', 'ejs');
 
@@ -81,7 +71,7 @@ app.use(globalErrorHandler);
 // routes
 
 app.get('*', currentUser)//apply to every route (protect routes)
-app.get('/', (req, res) => res.render('home'));
+
 app.use("/",emailRoutes)
 app.use('/auth',googleAuthRouter)
 app.use("/",authRoutes)
