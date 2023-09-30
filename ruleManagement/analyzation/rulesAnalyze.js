@@ -11,7 +11,7 @@ function rulesAnalyze(raw, rules) {
                 const matches = messageLowerCase.match(keywordRegex);
 
                 if (matches) {
-                    classificationScores[rule.rule_name] = (classificationScores[rule.rule_name] || 0) + matches.length;
+                    classificationScores[rule.ruleName] = (classificationScores[rule.ruleName] || 0) + matches.length;
                 }
             }
         }

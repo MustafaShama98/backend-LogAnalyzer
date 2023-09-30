@@ -23,7 +23,8 @@ router.get('/analyzed_logs', async function (req, res) {
     const logModel = await getDBModel(companyDB,'analyzed_logs',logSchema)
 
     //check if file in the database
-    var file_analyzed = await logModel.findOne({ }).select({process: 0});
+   // var file_analyzed = await logModel.findOne({ }).select({process: 0});
+    var file_analyzed = await logModel.find({ })
     res.status(200).json(file_analyzed);
 });
 

@@ -13,7 +13,7 @@ function ranksAnalyzation(raw, rules) {
     var res_rank = 1;
     let ruleObject = null;
     for (const rule of rules) {
-        if (rule.rule_name === raw_rule) {
+        if (rule.ruleName === raw_rule) {
             ruleObject = rule;
             break;
         }
