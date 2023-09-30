@@ -6,18 +6,15 @@ const  {verifyUser,isLoggedIn, isAdmin}= require('../login/middleware/authMiddwa
 const getAllEmployeesDataByCompany = require("../login/controllers/adminController");
 const fileSystemRoute = require('../fileSystem/routes/fileSystemRoutes')
 const ruleManagementRoutes = require('../ruleManagement/routes/ruleMangementRoutes')
+const reportsManagement = require('../reportsManagement/controllers/reportsController')
 //router.use('/', authRoutes)
 
 // Protect all routes after this middleware
 router.use(isLoggedIn);
-
-
 router.use(isAdmin)
-
+router.use(reportsManagement)
 router.use(fileSystemRoute)
 router.use(ruleManagementRoutes)
-
-
 router.route('/dashboard').
 get(getAllEmployeesDataByCompany)
 
