@@ -12,7 +12,7 @@ const reportsManagement = require('../reportsManagement/controllers/reportsContr
 // Protect all routes after this middleware
 router.use(isLoggedIn);
 router.use(isAdmin)
-// router.use(reportsManagement)
+router.use('/report',reportsManagement);
 router.use(fileSystemRoute)
 router.use(ruleManagementRoutes)
 router.route('/dashboard').
