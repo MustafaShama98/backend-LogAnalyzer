@@ -1,4 +1,3 @@
-
 var request = require('request');
 
 function sendToDispatcher(abnormalErrors, file_analyzed, req) {
