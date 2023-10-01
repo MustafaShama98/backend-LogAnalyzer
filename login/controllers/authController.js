@@ -58,11 +58,26 @@ const createCookie = (token, res)=>{
       if(process.env.NODE_ENV === 'production') cookieOptions.secure =true;
     res.cookie('jwt', token, cookieOptions);
 }
+function formatPhoneNumber(phoneNumber) {
+    // Remove any non-digit characters from the input
+    const digitsOnly = phoneNumber.replace(/\D/g, '');
 
+    // Check if the number starts with "0" (local format)
+    if (digitsOnly.startsWith('0')) {
+        // Replace the leading "0" with "+972"
+        return '+972' + digitsOnly.substring(1);
+    } else if (digitsOnly.startsWith('+972')) {
+        // The number is already in the desired format
+        return digitsOnly;
+    } else {
+        // If the input doesn't match the expected format, return it as is
+        return phoneNumber;
+    }
+}
 const signup_post = async (req, res) => {
-    const { username, password, email, firstName, lastName, passwordConfirm,companyName,phoneNumber } = req.body;
+    let { username, password, email, firstName, lastName, passwordConfirm,companyName,phoneNumber } = req.body;
     //const role = Roles.viewer;
-
+    phoneNumber = formatPhoneNumber(phoneNumber)
 //1) swtichDB to AppTenant
     const mainDB = await switchDB('MainDB','admins', userSchema)
     //2) create new admin user in AppTenant
